@@ -42,11 +42,23 @@ var contatos = [
   }
 ];
 
+app.interceptor(function(req, res, next) {
+  // console.log('chamando interceptor 1');
+  res.setHeader('Access-Control-Allow-Origin', 'localhost:8000');
+  next();
+});
+
+app.interceptor(function (req, res, next) {
+  // console.log('chamando interceptor 2');
+  res.setHeader('Content-Type', 'application/json;charset=UTF-8');
+});
+
 app.get('/operadoras', function(req, res){
   res.write(JSON.stringify(operadoras));
   res.end();
 });
-app.post('/contatos', function(req, res){
+
+app.get('/contatos', function(req, res){
   res.write(JSON.stringify(contatos));
   res.end();
 });

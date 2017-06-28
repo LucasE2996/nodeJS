@@ -1,30 +1,28 @@
 const http = require('http');
 
-const createRouter = function (port) {
+var createRouter = function (port) {
 
-  var routes = {
-    GET: {},
-    POST: {}
-  };
+  var api = {};//get & post
+  var routes = {};//rotas
+  var methods = ['GET', 'POST'];//metodos
 
-  var get = function (path, fn) {
-    routes['GET'][path] = fn;
-  };
+  //encorpora os métodos
+  methods.forEach( function(method){
+    routes[method] = {};//metodos viram objetos
+    api[method.toLowerCase()] = function(path, fn){
+      routes[method][path] = fn;
+    };
+  });
 
-  var post = function (path, fn) {
-    routes['POST'][path] = fn;
-  };
-
-  http.createServer( function (req, res){
+  http.createServer (function (req, res){
     res.setHeader('Access-Control-Allow-Origin', 'localhost:8000');
     if (!routes[req.method][req.url]) return res.end();
     routes[req.method][req.url](req, res);
+    //req.method retorna GET/POST
+    //req.url retorna a URL
   }).listen(port);
 
-  return{
-    get: get,
-    post: post
-  };
+  return api;
 
 };
 

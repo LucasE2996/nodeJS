@@ -1,6 +1,6 @@
 const router = require('./router');
 
-const app = router(3412);
+var app = router(3412);
 
 var operadoras = [
   {nome: "oi", codigo: 14, categoria: "celular", preco:2},
@@ -46,7 +46,7 @@ app.get('/operadoras', function(req, res){
   res.write(JSON.stringify(operadoras));
   res.end();
 });
-app.get('/contatos', function(req, res){
+app.post('/contatos', function(req, res){
   res.write(JSON.stringify(contatos));
   res.end();
 });
